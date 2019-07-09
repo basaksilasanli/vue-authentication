@@ -37,7 +37,7 @@
               >{{ errors.first('password') }}</b-form-text>
             </b-form-group>
 
-            <b-button variant="primary" @click="login">Login</b-button>
+            <b-button variant="primary" @click="login" class="mr-3">Login</b-button>
             <b-button variant="primary">
               <router-link to="/register">Register</router-link>
             </b-button>

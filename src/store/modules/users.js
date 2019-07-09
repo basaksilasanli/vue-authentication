@@ -36,9 +36,10 @@ const mutations = {
         state.loginError = err
     },
     logout(state) {
-        state.authUser = null
+        state.authUser = { }
         state.token = null
     },
+
     register_request(state) {
         state.isRegisterLoading = true
     },
@@ -50,7 +51,8 @@ const mutations = {
         state.isRegisterLoading = false
         state.registerError = err
     },
-    authUser(state,data) {
+
+    authUser(state, data) {
         state.authUser = data
     }
 
@@ -109,7 +111,6 @@ const actions = {
                 url: 'candidate/profile/',
                 method: 'GET'
             }).then(resp => {
-
                 let data = {
                     email: resp.data.data.email,
                     name: resp.data.data.profile.name,
@@ -131,6 +132,23 @@ const actions = {
             delete axios.defaults.headers.common['Authorization']
             resolve()
         })
+    },
+
+    update({commit,dispatch}, data) {
+        return new Promise((resolve, reject) => {
+            axios({
+                url: 'candidate/profile/',
+                method: 'PUT',
+                data
+            }).then(resp => {
+                dispatch('getAuthUser')
+                resolve(resp)
+            }).catch(err =>{
+                reject(err)
+
+            })
+        })
+
     }
 
     
