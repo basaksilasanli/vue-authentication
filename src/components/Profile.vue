@@ -122,6 +122,7 @@ export default {
     clickBack(){
       this.unclickedUpdate = true;
       this.clickedUpdate = false;  
+      this.submitted = false;
     },
     clickSave() {
       this.submitted = true;

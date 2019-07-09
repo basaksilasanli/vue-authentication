@@ -1,81 +1,120 @@
 <template>
   <div>
     <div class="container">
-          <div class="row">
-              <div class="col-sm-6 mx-auto offset-sm-2">
-                <h1>Register</h1>
-                <div class="login" v-if="isRegisterLoading">
-                    <div class="container-loading">
-                      <img src="../assets/loading.gif" alt="Loading Icon" class="gif"/>
-                    </div>
-                </div>
-                <b-form>
-
-                  <b-form-group label="Email:" label-for="email" description="We'll never share your email with anyone else.">         
-                    <b-form-input v-validate="'required|email'" v-model="user.email" type="email" name="email" id="email" class="form-control"/>
-                    <b-form-text v-show="submitted && errors.has('email')" >{{ errors.first('email') }}</b-form-text>
-                  </b-form-group>
-                  
-                  <b-form-group label="Password:" label-for="password">
-                    <b-form-input v-model="user.password" v-validate="{ required: true, min: 6 }" type="password" name="password" id="password" class="form-control"/>
-                    <b-form-text v-show="submitted && errors.has('password')" >{{ errors.first('password') }}</b-form-text>
-                  </b-form-group>
-                  
-                  <b-form-group label="Name:" label-for="name">
-                    <b-form-input v-model="user.name"  v-validate="'required'" type="text" name="name" id="name" class="form-control" />
-                    <b-form-text v-show="submitted && errors.has('name')" >{{ errors.first('name') }}</b-form-text>
-                  </b-form-group>
-                  
-                  <b-form-group label="Surname:" label-for="surname">          
-                    <b-form-input v-model="user.surname" v-validate="'required'" type="text" name="surname" id="surname" class="form-control"/>
-                    <b-form-text v-show="submitted && errors.has('surname')" >{{ errors.first('surname') }}</b-form-text>
-                  </b-form-group>
-                
-                  <b-form-group label="Mobile Phone:" label-for="phone">
-                    <b-form-input v-model="user.mobilePhone" v-validate="'required'" type="number" name="phone" id="phone" class="form-control"/>
-                    <b-form-text v-show="submitted && errors.has('phone')" >{{ errors.first('phone') }}</b-form-text>
-                  </b-form-group>
-                      
-                  <b-button v-on:click="handleSubmit" variant="primary"> Register</b-button>
-                  <b-button  type="reset" variant="danger"> Reset  </b-button>
-              
-                
-                </b-form>
-              </div>
+      <div class="row">
+        <div class="col-sm-6 mx-auto offset-sm-2">
+          <h1>Register</h1>
+          <div class="login" v-if="isRegisterLoading">
+            <div class="container-loading">
+              <img src="../assets/loading.gif" alt="Loading Icon" class="gif" />
+            </div>
           </div>
-    </div>              
+          <b-form>
+            <b-form-group
+              label="Email:"
+              label-for="email"
+              description="We'll never share your email with anyone else."
+            >
+              <b-form-input
+                v-validate="'required|email'"
+                v-model="user.email"
+                type="email"
+                name="email"
+                id="email"
+                class="form-control"
+              />
+              <b-form-text v-show="submitted && errors.has('email')">{{ errors.first('email') }}</b-form-text>
+            </b-form-group>
+
+            <b-form-group label="Password:" label-for="password">
+              <b-form-input
+                v-model="user.password"
+                v-validate="{ required: true, min: 6 }"
+                type="password"
+                name="password"
+                id="password"
+                class="form-control"
+              />
+              <b-form-text
+                v-show="submitted && errors.has('password')"
+              >{{ errors.first('password') }}</b-form-text>
+            </b-form-group>
+
+            <b-form-group label="Name:" label-for="name">
+              <b-form-input
+                v-model="user.name"
+                v-validate="'required'"
+                type="text"
+                name="name"
+                id="name"
+                class="form-control"
+              />
+              <b-form-text v-show="submitted && errors.has('name')">{{ errors.first('name') }}</b-form-text>
+            </b-form-group>
+
+            <b-form-group label="Surname:" label-for="surname">
+              <b-form-input
+                v-model="user.surname"
+                v-validate="'required'"
+                type="text"
+                name="surname"
+                id="surname"
+                class="form-control"
+              />
+              <b-form-text v-show="submitted && errors.has('surname')">{{ errors.first('surname') }}</b-form-text>
+            </b-form-group>
+
+            <b-form-group label="Mobile Phone:" label-for="phone">
+              <b-form-input
+                v-model="user.mobilePhone"
+                v-validate="'required'"
+                type="number"
+                name="phone"
+                id="phone"
+                class="form-control"
+              />
+              <b-form-text v-show="submitted && errors.has('phone')">{{ errors.first('phone') }}</b-form-text>
+            </b-form-group>
+
+            <b-button @click="clickBack" variant="outline-primary">Geri Dön</b-button>
+            <b-button v-on:click="handleSubmit" variant="primary" class="ml-3">Register</b-button>
+          </b-form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState} from 'vuex'
+import { mapActions, mapState } from "vuex";
 export default {
-  name: 'Register',
-  data(){
+  name: "Register",
+  data() {
     return {
       user: {
-        email:'',
-        password:'',
-        confirmPassword:'',
-        name:'',
-        surname:'',
-        mobilePhone:''
+        email: "",
+        password: "",
+        confirmPassword: "",
+        name: "",
+        surname: "",
+        mobilePhone: ""
       },
       submitted: false
-      
-    }
+    };
   },
   computed: {
     ...mapState({
       isRegisterLoading: state => state.users.isRegisterLoading
     })
-
   },
   methods: {
     ...mapActions({
-      register: 'users/register',
-      
+      register: "users/register"
     }),
+    clickBack() {
+      this.$router.push({name:'login'})
+
+    },
 
     handleSubmit(e) {
       this.submitted = true;
@@ -87,17 +126,16 @@ export default {
             name: this.user.name,
             surname: this.user.surname,
             mobilePhone: this.user.mobilePhone
-          }
-          this.register(data)
-          .then((res) => {this.$router.push({name:'profile'})})
+          };
+          this.register(data).then(res => {
+            this.$router.push({ name: "profile" });
+          });
         }
       });
-      
-
-    }
+    },
     
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -117,12 +155,11 @@ a {
   color: #42b983;
 }
 .login {
-    padding: 1.5rem;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: hidden;
-    
+  padding: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: hidden;
 }
 .container-loading {
   position: absolute;
